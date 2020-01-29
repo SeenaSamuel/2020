@@ -36,7 +36,7 @@ public class Main {
         String[][] board = na.tictactoe();
        //String arr[][] = random2D();
        
-        Grid grid = new Grid(t);
+        Grid grid = new Grid(flatened3d);
         //print2D(arr);
         
         System.out.println(grid.build());
@@ -52,7 +52,7 @@ class Grid extends GridConfig {
     public String build() {
         String grid = "";
         int maxElements = maxElements();
-        int cellLength = maxColumnLength() + getPadding();
+        int cellLength = maxColumnLength() + getPadding()*2;
         int totalLength = 0;
         
         //setTitle("Tic Tac Toe");
@@ -110,12 +110,14 @@ class Grid extends GridConfig {
     
     private String centerText(String str, int length) {
         int spaces = (length - str.length()) / 2;
-        if (str.length() % 2 != 0 || length % 2 != 0) spaces++;
+        // if ((length-str.length()) % 2 != 0) spaces++;
         
         String text = "";
         for (int i = 0; i < spaces; i++) text += " ";
         
         text += str;
+        
+        if ((length-str.length()) % 2 != 0) spaces++;
         
         for (int i = 0; i < spaces; i++) text += " ";
         
