@@ -36,23 +36,37 @@ public class Main {
         String[][] board = na.tictactoe();
        //String arr[][] = random2D();
        
-        Grid grid = new Grid(flatened3d);
+        Grid grid = new Grid();
         //print2D(arr);
         
-        System.out.println(grid.build());
+        String gd = grid.build(flatened3d);
+        
+        System.out.println(gd);
     }
 }
 
 class Grid extends GridConfig {
     
-    private String data[][];
+    //private String data[][];
 
-    public Grid(String data[][]) { this.data = data; }
+   // public Grid(String data[][]) { this.data = data; }
     
-    public String build() {
+    public String build(String[][] data) {
+        int maxColumnLength = 0;
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                if (data[i][j].length() > maxColumnLength) maxColumnLength = data[i][j].length();
+            }
+        }
+        
+        int maxElements = 0;
+        for (int i = 0; i < data.length; i++) {
+            if (data[i].length > maxElements) maxElements = data[i].length;
+        }
+        
         String grid = "";
-        int maxElements = maxElements();
-        int cellLength = maxColumnLength() + getPadding()*2;
+        //int maxElements = maxElements();
+        int cellLength = maxColumnLength + getPadding()*2;
         int totalLength = 0;
         
         //setTitle("Tic Tac Toe");
@@ -78,7 +92,7 @@ class Grid extends GridConfig {
         
         if (getTitle() != null) {
             str2 += Util.fill(getBorder(), totalLength) + "\n";
-            str2 += getBorder() + "" + centerText(getTitle(), totalLength - 2) + getBorder() + "\n";
+            str2 += "|" + "" + centerText(getTitle(), totalLength - 2) + "|" + "\n";
         }
         
         str2 += Util.fill(getBorder(), totalLength) + "\n" + grid;
@@ -86,28 +100,7 @@ class Grid extends GridConfig {
         return str2;
     }
     
-    private int maxColumnLength() {
-        
-        int length = 0;
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[i].length; j++) {
-                if (data[i][j].length() > length) length = data[i][j].length();
-            }
-        }
-
-        return length;
-    }
-    
-    private int maxElements() {
-        
-        int max = 0;
-        for (int i = 0; i < data.length; i++) {
-            if (data[i].length > max) max = data[i].length;
-        }
-        
-        return max;
-    }
-    
+   
     private String centerText(String str, int length) {
         int spaces = (length - str.length()) / 2;
         // if ((length-str.length()) % 2 != 0) spaces++;
@@ -129,7 +122,7 @@ class Grid extends GridConfig {
 class GridConfig {
     
     private int padding = 1;
-    private String title, border = "-", empty = "---";
+    private String title = "Grid Maker", border = "-", empty = "---";
     
     protected void setPadding(int padding) { this.padding = padding; }
     
