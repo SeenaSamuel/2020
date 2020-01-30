@@ -16,14 +16,8 @@ public class Main {
         int convParms[] = {rowCnt,colLwrCnt,colUprCnt,strLwrCnt,strUprCnt};
         int radixVals[] = {2, 8, 10, 16};
         
-        String t[][] = new String [4][]; 
-        t[0] = new String [] {"rowLwrCnt","rowUprCnt","colLwrCnt","colUprCnt"};
-        t[1] = new String [] {"rowLwr","rorCnt","colLwrCnt"};
-        t[2] = new String [] {"rt","rowUpt","colCnt","colUprCnt"};
-        t[3] = new String [] {"rrCnt","rowUCnt"};
-        
         QuizNov15API na = new QuizNov15API();
-        NumSysConv nsc = new NumSysConv();
+        //NumSysConv nsc = new NumSysConv();
         
         String empty01[][] = na.createEmpty2DArray(rowLwrCnt,rowUprCnt,colLwrCnt,colUprCnt);
         
@@ -41,17 +35,13 @@ public class Main {
         
         String gd = grid.build(flatened3d);
         
-        System.out.println(gd);
+        //System.out.println(gd);
     }
 }
 
-class Grid extends GridConfig {
+class Grid extends GridConfig { 
     
-    //private String data[][];
-
-   // public Grid(String data[][]) { this.data = data; }
-    
-    public String build(String[][] data) {
+    public String build(String[][] data) { 
         int maxColumnLength = 0;
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
@@ -101,7 +91,7 @@ class Grid extends GridConfig {
     }
     
    
-    private String centerText(String str, int length) {
+    private String centerText(String str, int length) { 
         int spaces = (length - str.length()) / 2;
         // if ((length-str.length()) % 2 != 0) spaces++;
         
@@ -119,7 +109,7 @@ class Grid extends GridConfig {
     
 }
 
-class GridConfig {
+class GridConfig { 
     
     private int padding = 1;
     private String title = "Grid Maker", border = "-", empty = "---";
@@ -141,7 +131,7 @@ class GridConfig {
     protected String getEmpty() { return empty; }
 }
 
-class Util {
+class Util { 
     public static String fill(String data, int amount) {
         String str = "";
         
@@ -151,9 +141,9 @@ class Util {
     }
 }
 
-class QuizNov15API {
+class QuizNov15API { 
      
-      public String[][] tictactoe(){
+      public String[][] tictactoe(){ 
           String [][] data = new String [3][3];
           for(int x = 0; x<data.length; x++){
               for(int j = 0; j<data[x].length; j++){
@@ -170,7 +160,7 @@ class QuizNov15API {
           return data;
       }
      
-      public int[][] sum2DArrays(String[][] one, String[][] two){ 
+      public int[][] sum2DArrays(String[][] one, String[][] two){  
           int[][] sum = new int[one.length][];
           int [][] sub01 = new int [one.length][];
           int [][] sub02 = new int [one.length][];
@@ -214,7 +204,7 @@ class QuizNov15API {
           return sum;
       }//end of sum2DArrays
       
-      public String [][] createEmpty2DArray (int lowrow, int uprrow, int lowcol, int uprcol){
+      public String [][] createEmpty2DArray (int lowrow, int uprrow, int lowcol, int uprcol){ 
         int row = (int)(Math.random()*(uprrow-lowrow+1)+lowrow);
         String empty[][] = new String [row][];
         int col = (int)(Math.random()*(uprcol-lowcol+1)+lowcol);
@@ -228,7 +218,7 @@ class QuizNov15API {
         return empty;
     }//end of createEmpty2DArray
       
-      public String[][] rnd2DArray(String sub[][], int max, int min){
+      public String[][] rnd2DArray(String sub[][], int max, int min){ 
        
        String [][] rand2DArray = new String [sub.length][];
       
@@ -699,68 +689,3 @@ class QuizNov15API {
       }//end flattened3Darray
       
 }//end of QuizNov15API
-
-class NumSysConv{
-    
-    public String [][] convertToRadix(String[][] convert, String ascii, String[][] sub){
-      String converted [][] = new String [4][2];
-      converted [0][0] = "2";
-      converted [1][0] = "8";
-      converted [2][0] = "10";
-      converted [3][0] = "16";
-      
-     converted[2][1] = convert[0][1];
-        
-        int finval = 0;//final value after conversions
-        int math = 0;//to break up math when you're going thru the loop >-<
-        
-        for(int i = 0; i<converted.length; i++){
-           StringBuilder rem = new StringBuilder();//sb for 
-           int baseDesired = Integer.valueOf(converted[i][0]);
-           int val = Integer.valueOf(convert[0][1]);
-            if(baseDesired!=10)
-             {
-            math = (val)/baseDesired;
-            rem.insert(0, (val) % baseDesired);//the remainder
-            while(0<math)
-            {
-                rem.insert(0, math % baseDesired);//adding the new remainder to the start of the stringbuilder
-                math = math / baseDesired;//continue to divide
-            }//end while for dividing until nothing is left 0w0
-            
-            math = 0;
-            converted[i][1] = (rem.toString());
-             }//end if for converting from base 10 to desired base
-        }
-        for (int i = 3; i<4; i++){
-            
-            for (int k = 1; k<2; k++){
-            
-            String input = converted[i][k];
-            
-            for (int j = 10; j < 11; j++) {
-            input = input.replace(String.valueOf(j),"A");
-            }
-             for (int j = 11; j < 12; j++) {
-            input = input.replace(String.valueOf(j),"B");
-            }
-             for (int j = 12; j < 13; j++) {
-            input = input.replace(String.valueOf(j),"C");
-            }
-             for (int j = 13; j < 14; j++) {
-            input = input.replace(String.valueOf(j),"D");
-            }
-             for (int j = 14; j < 15; j++) {
-            input = input.replace(String.valueOf(j),"E");
-            }
-             for (int j = 15; j < 16; j++) {
-            input = input.replace(String.valueOf(j),"F");
-            }
-             
-             converted[i][k]=input;
-               
-            }
-        }
-               return converted;
-    }//end
-}//end class NumSysConv
