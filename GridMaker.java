@@ -17,7 +17,6 @@ public class Main {
         int radixVals[] = {2, 8, 10, 16};
         
         QuizNov15API na = new QuizNov15API();
-        //NumSysConv nsc = new NumSysConv();
         
         String empty01[][] = na.createEmpty2DArray(rowLwrCnt,rowUprCnt,colLwrCnt,colUprCnt);
         
