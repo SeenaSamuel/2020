@@ -24,6 +24,7 @@ public class Main {
         int casestyle = (int)(Math.random()*(4));
         int lwrwordsize = 4;
         int uprwordsize = 10;
+        int width = 15;
         
         String empty01[][] = na.createEmpty2DArray(rowLwrCnt,rowUprCnt,colLwrCnt,colUprCnt);
         
@@ -35,8 +36,10 @@ public class Main {
         String gd = grid.build(flatened3d);
         
         String words = tu.makeWords(wordcnt,casestyle,lwrwordsize,uprwordsize);
-        
-        System.out.println(words);
+        String[] wrapped = tu.wrapText(words,width);
+        for (int x = 0; x<wrapped.length; x++){
+        System.out.println(wrapped[x]);
+        }
     }
 }
 
@@ -61,7 +64,7 @@ class TextUtils{
             }
             if (style == MIXED_CASE){
                 int q = (int)(Math.random()*(3));
-                char rand = 'temp';
+                char rand = 't';
                 if (q==1){
                     rand = (char)(Math.random()*('z'-'a'+1)+'a');
                 }
@@ -75,7 +78,30 @@ class TextUtils{
     }
         return words;
     }
-    
+    public String[] wrapText(String words, int width){
+        int length = words.length();
+        int cnt = (int)(length/width);
+        String [] wrapped = new String [cnt];
+        String temp = "";
+        String[] split = words.split(" "); 
+        int k = 0;
+        for (int x = 0; x<cnt; x++){
+            int j = 0;
+            temp = "";
+            while (j<width){
+                temp = temp + split[k] + " ";
+                j=temp.length();
+                if (j>=width){
+                    j=width;
+                    k=k-1;
+                }
+                k=k+1;
+            }
+            wrapped[x] = temp;
+        }
+        
+        return wrapped;
+    }
 }
 
 class Grid extends GridConfig { 
