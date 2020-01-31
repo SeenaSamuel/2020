@@ -17,25 +17,65 @@ public class Main {
         int radixVals[] = {2, 8, 10, 16};
         
         QuizNov15API na = new QuizNov15API();
+        TextUtils tu = new TextUtils();
+        Grid grid = new Grid();
+         
+        int wordcnt = 15;
+        int casestyle = (int)(Math.random()*(4));
+        int lwrwordsize = 4;
+        int uprwordsize = 10;
         
         String empty01[][] = na.createEmpty2DArray(rowLwrCnt,rowUprCnt,colLwrCnt,colUprCnt);
         
         int rows = empty01.length;
         
         String[][][] Random3D = na.make3DRandomRadixArray(convParms,radixVals,rows);
-        
         String[][] flatened3d = na.flattened3Darray(Random3D);
-        
         String[][] board = na.tictactoe();
-       //String arr[][] = random2D();
-       
-        Grid grid = new Grid();
-        //print2D(arr);
-        
         String gd = grid.build(flatened3d);
         
-        //System.out.println(gd);
+        String words = tu.makeWords(wordcnt,casestyle,lwrwordsize,uprwordsize);
+        
+        System.out.println(words);
     }
+}
+
+class TextUtils{
+    public String makeWords(int cnt, int style, int lwrsize, int uprsize){
+        String words = "";
+        int UPPER_CASE = 1;
+        int LOWER_CASE = 2;
+        int MIXED_CASE = 3;
+       
+    for (int x = 0; x < cnt; x++){ 
+        String temp = "";
+        int size = (int)(Math.random()*(uprsize-lwrsize+1)+lwrsize);
+        for (int j = 0; j < size; j++){
+            if (style == UPPER_CASE){
+                char rand = (char)(Math.random()*('Z'-'A'+1)+'A');
+                temp = temp+rand;
+            }
+            if (style == LOWER_CASE){
+                char rand = (char)(Math.random()*('z'-'a'+1)+'a');
+                temp = temp+rand;
+            }
+            if (style == MIXED_CASE){
+                int q = (int)(Math.random()*(3));
+                char rand = 'temp';
+                if (q==1){
+                    rand = (char)(Math.random()*('z'-'a'+1)+'a');
+                }
+                if (q==2){
+                    rand = (char)(Math.random()*('Z'-'A'+1)+'A');
+                }
+                temp = temp+rand;
+            }
+        }
+        words = words + temp +" ";
+    }
+        return words;
+    }
+    
 }
 
 class Grid extends GridConfig { 
