@@ -34,14 +34,12 @@ public class Main {
         String[][] flatened3d = na.flattened3Darray(Random3D);
         String[][] board = na.tictactoe();
         String gd = grid.build(flatened3d);
-        
         String words = tu.makeWords(wordcnt,casestyle,lwrwordsize,uprwordsize);
-        String[] wrapped = tu.wrapText(words,width);
-        for (int x = 0; x<wrapped.length; x++){
-        System.out.println(wrapped[x]);
+        
+        System.out.println(gd);
+        
         }
     }
-}
 
 class TextUtils{
     public String makeWords(int cnt, int style, int lwrsize, int uprsize){
