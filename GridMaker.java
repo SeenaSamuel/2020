@@ -118,21 +118,18 @@ class Grid extends GridConfig {
         }
         
         String grid = "";
-        //int maxElements = maxElements();
         int cellLength = maxColumnLength + getPadding()*2;
         int totalLength = 0;
         
-        //setTitle("Tic Tac Toe");
-        
         for (int i = 0; i < data.length; i++) {
             
-            String str = "|", curStr;
+            String str = getCol();
             for (int j = 0; j < maxElements; j++) {
                 
                 try {
-                    str += centerText(data[i][j], cellLength) + "|";
+                    str += centerText(data[i][j], cellLength) + getCol();
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    str += centerText(getEmpty(), cellLength) + "|";
+                    str += centerText(getEmpty(), cellLength) + getCol();
                 }
             }
             
@@ -145,7 +142,7 @@ class Grid extends GridConfig {
         
         if (getTitle() != null) {
             str2 += Util.fill(getBorder(), totalLength) + "\n";
-            str2 += "|" + "" + centerText(getTitle(), totalLength - 2) + "|" + "\n";
+            str2 += getCol() + "" + centerText(getTitle(), totalLength - 2) + getCol() + "\n";
         }
         
         str2 += Util.fill(getBorder(), totalLength) + "\n" + grid;
@@ -175,7 +172,7 @@ class Grid extends GridConfig {
 class GridConfig { 
     
     private int padding = 1;
-    private String title = "Grid Maker", border = "-", empty = "---";
+    private String title = "Grid Maker", border = "*", empty = "---", Col = "*";
     
     protected void setPadding(int padding) { this.padding = padding; }
     
@@ -188,6 +185,10 @@ class GridConfig {
     protected void setBorder(String border) { this.border = border; }
     
     protected String getBorder() { return border; }
+    
+    protected void setCol(String Col) { this.Col = Col; }
+    
+    protected String getCol() { return Col; }
     
     protected void setEmpty(String empty) { this.empty = empty; }
     
