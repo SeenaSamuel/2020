@@ -123,7 +123,7 @@ class Grid extends GridConfig {
         
         for (int i = 0; i < data.length; i++) {
             
-            String str = getCol();
+            String str = String.valueOf(getCol());
             for (int j = 0; j < maxElements; j++) {
                 
                 try {
@@ -172,7 +172,8 @@ class Grid extends GridConfig {
 class GridConfig { 
     
     private int padding = 1;
-    private String title = "Grid Maker", border = "*", empty = "---", Col = "*";
+    private String title = "Grid Maker", empty = "---",  border = "-";
+    private char Col2 = 9829;
     
     protected void setPadding(int padding) { this.padding = padding; }
     
@@ -186,9 +187,9 @@ class GridConfig {
     
     protected String getBorder() { return border; }
     
-    protected void setCol(String Col) { this.Col = Col; }
+    protected void setCol(char Col2) { this.Col2 = Col2; }
     
-    protected String getCol() { return Col; }
+    protected char getCol() { return Col2; }
     
     protected void setEmpty(String empty) { this.empty = empty; }
     
