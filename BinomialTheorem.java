@@ -1,5 +1,3 @@
-//NOT COMPLETE YET :P
-
 import java.util.*;
 
 public class MyClass {
@@ -12,7 +10,7 @@ public class MyClass {
      int [][] triangle = bt.pascaltngl(x,y);
      
      for(int j = 0; j<triangle.length; j++){
-         System.out.println(Arrays.toString(triangle[j]));
+         System.out.println("For n = "+j+" coefficients: "+Arrays.toString(triangle[j]));
      }
      
     }
@@ -21,7 +19,7 @@ public class MyClass {
 class BinomialTheorem{
     public int [][] pascaltngl(int x, int y){
         int exponant = 0;
-        int maxexponant = 7;
+        int maxexponant = 8;
         
         int [][] tngl = new int [maxexponant][];
         int col = 1;
