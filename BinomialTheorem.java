@@ -4,8 +4,8 @@ import java.util.*;
 
 public class MyClass {
     public static void main(String args[]) {
-     int x = 3;
-     int y = 5;
+     int x = 1;
+     int y = 1;
      
      BinomialTheorem bt = new BinomialTheorem();
      
@@ -41,12 +41,16 @@ class BinomialTheorem{
             while (a<temp.length){
                 temp[0]= (int)Math.pow(x,c);
                 temp[temp.length-1] = (int)Math.pow(y,c);
-                
-                
-                
                 a++;
             }
             tngl[c] = temp;
+        }
+        for(int c = 2; c<tngl.length; c++){
+            for (int w = 1; w<tngl[c].length; w++){
+                if (tngl[c][w]==0){
+                    tngl[c][w]=tngl[c-1][w]+tngl[c-1][w-1];
+                }
+            }
         }
         
      return tngl;   
