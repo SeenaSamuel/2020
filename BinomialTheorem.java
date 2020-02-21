@@ -1,6 +1,3 @@
-//string.format
-//place different structures into a single data structure
-
 import java.util.*;
 
 public class MyClass {
@@ -11,16 +8,34 @@ public class MyClass {
     BinomialTheorem bt = new BinomialTheorem();
      
     double [][] triangle = bt.pascaltngl(x,y);
-    double [][] expandedtngl = bt.expand(triangle);
+    String [][] expandedtngl = bt.expand(triangle);
     
     
     for(int j = 0; j<triangle.length; j++){
          System.out.println("For n = "+j+" coefficients: "+Arrays.toString(triangle[j]));
         }
-System.out.println("");
+                System.out.println("");
     for(int j = 0; j<expandedtngl.length; j++){
          System.out.println("For n = "+j+" coefficients: "+Arrays.toString(expandedtngl[j]));
         }    
+     
+                System.out.println("");
+     for (int i = 0; i < expandedtngl.length; i++) { 
+         String f = " ";
+        for (int k = 0; k < expandedtngl[i].length; k++) { 
+            if (expandedtngl[i][k]==null){
+                f = f+"   ";
+            }
+            if (expandedtngl[i][k]!=null)
+            {
+                f=f+expandedtngl[i][k];
+            }
+		} 
+	    System.out.println(f);
+	} 
+     
+     
+     
      
     }
 }
@@ -62,7 +77,8 @@ class BinomialTheorem{
         
      return tngl;   
     }
-    public double [][] expand (double[][]tngl){
+    
+public String [][] expand (double[][]tngl){
         int max = 0;
         for (int x = 0; x<tngl.length; x++){
             if (tngl.length>max){
@@ -70,15 +86,69 @@ class BinomialTheorem{
             }
         }
         
-    double[][] expanded = new double[tngl.length][max];
+        String [][] expanded = new String[tngl.length][(max*2)-1];
+        int center = (int)(expanded[0].length/2);
+        String temp[] = new String [expanded[0].length];
+            temp[center]=String.valueOf(tngl[0][0]);
+            expanded[0]=temp;
+            
+            
+        for(int x = 1; x<expanded.length; x++){
+            String temp2[] = new String [expanded[x].length];
+            int d = (int)tngl[x].length/2;
+            if (tngl[x].length%2==0){
+                temp2[center]="0.0";
+            }
+            if (tngl[x].length%2!=0){
+                temp2[center]=String.valueOf(tngl[x][d]);
+            }
+        for (int y = 0; y<tngl[x].length; y++){ 
+            if(x%2!=0){
+                int count = x;
+                int half = (int)tngl[x].length/2;
+                int t = 0;
+                while (count>=1){
+                    if(count%2!=0){
+                        temp2[center-count]=String.valueOf(tngl[x][t]);
+                        temp2[center+count]=String.valueOf(tngl[x][t]);
+                        t++;
+                    }
+                count--;
+                }
+            }
+            
+            if(x%2==0){
+                int count = x;
+                int half = (int)tngl[x].length/2;
+                int t = 0;
+                while (count>=1){
+                    if(count%2==0){
+                        temp2[center-count]=String.valueOf(tngl[x][t]);
+                        temp2[center+count]=String.valueOf(tngl[x][t]);
+                        t++;
+                    }
+                count--;
+                }
+            }
+        }
+            
+            expanded[x]=temp2;
+        }
         
-        for(int x = 0; x<expanded.length; x++){
-            for(int y = 0; y<expanded[x].length; y++){
-                double [] temp = [expanded[x].length];
-                
+        
+        for(int h = 0; h<expanded.length; h++){
+            for(int t = 0; t<expanded[h].length; t++){
+                if(expanded[h][t]=="0.0"){
+                    expanded[h][t]=null;
+                }
             }
         }
         
+        
+        
+        
+        
         return expanded;
     }
+    
 }
