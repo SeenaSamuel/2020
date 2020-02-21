@@ -2,8 +2,8 @@ import java.util.*;
 
 public class MyClass {
     public static void main(String args[]) {
-     double x = 1;
-     double y = 1;
+     double x = 3;
+     double y = 5;
      
     BinomialTheorem bt = new BinomialTheorem();
      
@@ -32,6 +32,7 @@ public class MyClass {
             }
 		} 
 	    System.out.println(f);
+	    System.out.println("");
 	} 
      
      
