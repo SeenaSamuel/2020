@@ -135,21 +135,28 @@ class Grid extends GridConfig {
             
             if (i == 0) totalLength = str.length();
             grid += str + "\n";
-            grid += Util.fill(getBorder(), totalLength) + "\n";
+            grid += fill(getBorder(), totalLength) + "\n";
         }
         
         String str2 = "";
         
         if (getTitle() != null) {
-            str2 += Util.fill(getBorder(), totalLength) + "\n";
+            str2 += fill(getBorder(), totalLength) + "\n";
             str2 += getCol() + "" + centerText(getTitle(), totalLength - 2) + getCol() + "\n";
         }
         
-        str2 += Util.fill(getBorder(), totalLength) + "\n" + grid;
+        str2 += fill(getBorder(), totalLength) + "\n" + grid;
         
         return str2;
     }
     
+    public static String fill(String data, int amount) {
+        String str = "";
+        
+        for (int i = 0; i < amount; i++) str += data;
+        
+        return str;
+    }
    
     private String centerText(String str, int length) { 
         int spaces = (length - str.length()) / 2;
@@ -196,15 +203,15 @@ class GridConfig {
     protected String getEmpty() { return empty; }
 }
 
-class Util { 
-    public static String fill(String data, int amount) {
-        String str = "";
+// class Util { 
+//     public static String fill(String data, int amount) {
+//         String str = "";
         
-        for (int i = 0; i < amount; i++) str += data;
+//         for (int i = 0; i < amount; i++) str += data;
         
-        return str;
-    }
-}
+//         return str;
+//     }
+// }
 
 class QuizNov15API { 
      
@@ -754,3 +761,4 @@ class QuizNov15API {
       }//end flattened3Darray
       
 }//end of QuizNov15API
+
