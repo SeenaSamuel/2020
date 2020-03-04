@@ -1138,7 +1138,7 @@ class TextUtils{
         
         return wrapped2;
     }
-    public int[] buildRandomGridData(int[] data){
+    public String[][] buildRandomGridData(int[] data){
         int rowCntUpr = data[0];
         int rowCntLwr = data[1];
         int wordSizeUpr = data[2];
@@ -1150,39 +1150,48 @@ class TextUtils{
         int rows = (int)(Math.random()*(rowCntUpr-rowCntLwr+1)+rowCntLwr);
         
         String [][] wt = new String [rows][];
-        
-        int datatimes = (int)(Math.random()*(rows+1));
-        int datarows[] = new int [datatimes+1];
-        datarows[0]=rows;
-        int count = 0;
-        for (int x = 1; x<datarows.length-1; x++){
-           int rowtimes = (int)(Math.random()*(4)+1);
-           datarows[x] = rowtimes;
-           count = count + rowtimes;
-           if(count > rows){
-               datarows[x] = 0;
-           }
+        int datarownum = rows;
+        //(int)(Math.random()*(rows+1));
+        int titlerownum = rows - datarownum;
+        for(int x = 0; x<datarownum; x++){
+            wt[x] = new String[1];
+            int cnt = (int)(Math.random()*(wordCntUp-wordCntLwr+1)+wordCntLwr);
+            int style = (int)(Math.random()*(4)+1);
+            wt[x][0] = makeWords(cnt,style,wordSizeLwr,wordSizeUpr);
         }
-        int sum = 0;
-        for(int x = 0; x<datarows.length; x++){
-            sum = sum + datarows[x];
-        }
+
+
+        // int datatimes = (int)(Math.random()*(rows+1));
+        // int datarows[] = new int [datatimes];
+        // int count = 0;
+        // for (int x = 0; x<datarows.length; x++){
+        //   int rowtimes = (int)(Math.random()*(4)+1);
+        //   datarows[x] = rowtimes;
+        //   count = count + rowtimes;
+        //   if(count > rows){
+        //       datarows[x] = 0;
+        //   }
+        // }
+        // int sum = 0;
+        // for(int x = 0; x<datarows.length; x++){
+        //     sum = sum + datarows[x];
+        // }
         
-     String word = "";
-    for (int x = 0; x<sum; x++){
-        int cnt = (int)(Math.random()*(wordCntUp-wordCntLwr+1)+wordCntLwr);
-        int style = (int)(Math.random()*(4)+1);
-        word = word + makeWords(cnt,style,wordSizeLwr,wordSizeUpr);
-    }//end of for
+    //  String word = "";
+    // for (int x = 0; x<sum; x++){
+    //     int cnt = (int)(Math.random()*(wordCntUp-wordCntLwr+1)+wordCntLwr);
+    //     int style = (int)(Math.random()*(4)+1);
+    //     word = word + makeWords(cnt,style,wordSizeLwr,wordSizeUpr);
+    // }//end of for
         
-       int datatemp[] = new int [2];
-        datatemp[0] = sum;
-        datatemp[1] = rows;
+       int datatemp[] = new int [3];
+        datatemp[0] = datarownum;
+        datatemp[1] = titlerownum;
+        datatemp[2] = rows;
         
         
         
-        
-        return datatemp; 
+        return wt; 
     }
 }
 public class TestGridMaker3D {
@@ -1230,7 +1239,7 @@ public class TestGridMaker3D {
      
         int maxrowscnt = 20;
         int minrowscnt = 1;
-        int maxstringleng = 20;
+        int maxstringleng = 15;
         int minstringleng = 1;
         int maxwordcnt = 20;
         int minwordcnt = 1;
@@ -1239,7 +1248,7 @@ public class TestGridMaker3D {
         
         int instructions[] = new int [] {maxrowscnt,minrowscnt,maxstringleng,minstringleng,maxwordcnt,minwordcnt,maxwrapLen,minwrapLen};
         
-        int [] data = tu.buildRandomGridData(instructions);
+        String[][] data = tu.buildRandomGridData(instructions);
 
     // titleStyle will read through the code and if its of that given index it will style that row acordingly.
     int titleStyle[][]= new int[1][];
@@ -1258,9 +1267,10 @@ public class TestGridMaker3D {
     gm.setDataRowType(dataRowStyle);// temp is the adjusted dataRowStyle arr in order for the code to function properly!
      
       String test = gm.buildGrid(trace);
-      
-      System.out.println(Arrays.toString(data));
-      
+    
+    for(int x = 0; x < data.length; x++){
+      System.out.println(Arrays.toString(data[x]));
+    }
 
     }//end main
 }//end test class
