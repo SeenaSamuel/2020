@@ -27,7 +27,7 @@ class GridConfig {
     
     protected String getEmpty() { return empty; }
 }
-class Grid extends GridConfig { 
+class Grid extends GridConfig {  
     
     public String build(String[][] data) { 
         int maxColumnLength = 0;
@@ -735,7 +735,7 @@ class TextUtils{
         
         return wrapped2;
     }
-    public String[][] buildRandomGridData(int[] data){
+    public ArrayList<String[][]> buildRandomGridData(int[] data){
         int rowCntUpr = data[0];
         int rowCntLwr = data[1];
         int wordSizeUpr = data[2];
@@ -746,7 +746,6 @@ class TextUtils{
         int wrapLenLwr = data[7];
         int rows = (int)(Math.random()*(rowCntUpr-rowCntLwr+1)+rowCntLwr);
         
-        String [][] wt = new String [rows][];
         int datarownum = (int)(Math.random()*(rows+1));
         int titlerownum = rows - datarownum;
         String [] temp = new String [datarownum];
@@ -755,29 +754,128 @@ class TextUtils{
             int style = (int)(Math.random()*(4)+1);
             temp[x] = makeWords(cnt,style,wordSizeLwr,wordSizeUpr);
         }
-        String [][] temp2 = new String [temp.length][];
+        String [][] datahold = new String [temp.length][];
+        
+        //fill data
         for(int x = 0; x<datarownum; x++){
-            temp2 [x] = new String [1];
+            datahold [x] = new String [1];
             String word = temp[x];
-            temp2 [x] = word.split(" ");
+            datahold [x] = word.split(" ");
         }
         
-        String [] titles = new String [datarownum];
+        String [][] titles = new String [titlerownum][];
+        
+        //fill title
         for(int x = 0; x<titles.length; x++){
             int cnt = (int)(Math.random()*(wordCntUp-wordCntLwr+1)+wordCntLwr);
             int style = (int)(Math.random()*(2)+1);
-            titles[x] = makeWords(cnt,style,wordSizeLwr,wordSizeUpr);
+            titles[x] = new String[1];
+            String word = makeWords(cnt,style,wordSizeLwr,wordSizeUpr);
+            titles[x] = word.split(" ");
         }
-        
-        String grid[][] = new String [rows][];
         
         int titleindex [] = new int [titlerownum];
+        
+        int index = 0;
+        int tempindex = 0;
+        
+        //title index generator
         for(int x = 0; x<titlerownum; x++){
-            titleindex[x] = (int)(Math.random()*(rows+1));
+            index = (int)(Math.random()*(rows));
+            titleindex[x] = index;
+        }//end of for
+        
+        Arrays.sort(titleindex);
+    
+    for(int L = 0; L<100; L++){
+        for(int x = 0; x<titlerownum; x++){
+            int w = titleindex[x];
+            for(int j = 0; j<titlerownum; j++){
+                while(x>0 && w==titleindex[x-1]){
+                    w = (int)(Math.random()*(rows));
+                    titleindex[x] = w;
+                }
+                while(x<titlerownum-1 && w==titleindex[x+1]){
+                    w = (int)(Math.random()*(rows));
+                    titleindex[x] = w;
+                }
+                if(x>0 && titleindex[x]==titleindex[x-1]){
+                    if(titleindex[x]<titleindex[titlerownum-1])
+                    titleindex[x] = (int)(Math.random()*(rows));
+                }
+                Arrays.sort(titleindex);
+            }
+        }
+    }//end of for
+        Arrays.sort(titleindex);
+        
+        String [][] titleindex2 = new String[titleindex.length][];
+        for(int x = 0; x<titleindex.length; x++){
+            titleindex2[x] = new String [1];
+            titleindex2[x][0] = String.valueOf(titleindex[x]);
         }
         
+        // String grid[][] = new String [rows+1][];
+        // int titlecount = 0;
+        // grid[0] = titleindex2;
+        // for(int x = 1; x<rows; x++){
+        //     for(int j = 0; j<titlerownum; j++){
+        //         if(x==titleindex[j]){
+        //             grid[x] = titles[titlecount];
+        //             titlecount++;
+        //         }
+        //     }
+        // }
         
-        return temp2; 
+        //  int datacount = 0;
+        // for(int x = 1; x<rows; x++){
+        //     if(grid[x] == null){
+        //         grid[x] = datahold[datacount];
+        //         datacount++;
+        //     }
+        // }
+        
+        String grid[][] = new String [rows][];
+        int titlecount = 0;
+        //
+        for(int x = 0; x<rows; x++){
+            for(int j = 0; j<titlerownum; j++){
+                if(x==titleindex[j]){
+                    grid[x] = titles[titlecount];
+                    titlecount++;
+                }
+            }
+        }
+        
+        int datacount = 0;
+        for(int x = 0; x<rows; x++){
+            if(grid[x] == null){
+                grid[x] = datahold[datacount];
+                datacount++;
+            }
+        }
+        
+        // try {
+        //     int datacount = 0;
+        //     for(int x = 0; x<grid.length; x++){
+        //     if(grid[x] == null){
+        //         grid[x] = datahold[datacount];
+        //         datacount++;
+        //     }
+        // }
+        //     } 
+        // catch (ArrayIndexOutOfBoundsException e) {
+        //     System.out.println("Please run again");
+        // }
+        
+        // System.out.println(rows);
+        // System.out.println(Arrays.toString(titleindex));
+        
+        ArrayList<String[][]> grid2 = new ArrayList<String[][]>();
+        grid2.add(titleindex2);
+        grid2.add(grid);
+        
+        return grid2; 
     }
 }
 public class TestGridMaker3D {
@@ -799,7 +897,7 @@ public class TestGridMaker3D {
         
         QuizNov15API na = new QuizNov15API();
         TextUtils tu = new TextUtils();
-        GridConfig grid = new GridConfig();
+        Grid grid = new Grid();
          
         int wordcnt = 15;
         int casestyle = (int)(Math.random()*(4)+1);
@@ -821,7 +919,7 @@ public class TestGridMaker3D {
       int[] dataRowStyle = {10,10,10};// getting constant varable from the class easier to use this then to remeber all the numbers
       int[] rowBorderStyle ={10,10,10,10};// makes the adjustments
      
-        int maxrowscnt = 20;
+        int maxrowscnt = 30;
         int minrowscnt = 1;
         int maxstringleng = 15;
         int minstringleng = 5;
@@ -832,16 +930,26 @@ public class TestGridMaker3D {
         
         int instructions[] = new int [] {maxrowscnt,minrowscnt,maxstringleng,minstringleng,maxwordcnt,minwordcnt,maxwrapLen,minwrapLen};
         
-        String[][] data = tu.buildRandomGridData(instructions);
+        ArrayList<String[][]> data = tu.buildRandomGridData(instructions);
 
+       String[][] array = new String[data.size()-1][];
+       String[][] titletindex;
+        for (int i = 0; i < data.size(); i++) {
+            String[][] row = data.get(i);
+            if(row.length[i]==1){
+                
+            }
+        }
+        
+        
     
-     String gd = new Grid().build(data);
+     //String gd = grid.build(data);
     
-    for(int x = 0; x < data.length; x++){
-      System.out.println(Arrays.toString(data[x]));
-    }
+    // for(int x = 0; x < data.length; x++){
+    //   System.out.println(Arrays.toString(data[x]));
+    // }
     
-    System.out.println(gd);
+    //ystem.out.println(gd);
 
     }//end main
 }//end test class
