@@ -3,7 +3,7 @@ import java.lang.*;
 class GridConfig { 
     
     private int padding = 1;
-    private String title = "Grid Maker", empty = "---",  border = "-";
+    private String title = "Grid", empty = "---",  border = "-";
     private char Col2 = '|';
     //9829;
     
@@ -29,7 +29,7 @@ class GridConfig {
 }
 class Grid extends GridConfig {  
     
-    public String build(String[][] data) { 
+    public String build(String[][] data, int [] titleindex) { 
         int maxColumnLength = 0;
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
@@ -46,31 +46,34 @@ class Grid extends GridConfig {
         int cellLength = maxColumnLength + getPadding()*2;
         int totalLength = 0;
         
-        for (int i = 0; i < data.length; i++) {
-            
-            String str = String.valueOf(getCol());
-            for (int j = 0; j < maxElements; j++) {
-                
-                try {
-                    str += centerText(data[i][j], cellLength) + getCol();
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    str += centerText(getEmpty(), cellLength) + getCol();
-                }
-            }
-            
-            if (i == 0) totalLength = str.length();
-            grid += str + "\n";
-            grid += fill(getBorder(), totalLength) + "\n";
-        }
         
-        String str2 = "";
+        
+        // for (int i = 0; i < data.length; i++) {
+            
+        //     String str = String.valueOf(getCol());
+        //     for (int j = 0; j < maxElements; j++) {
+                
+        //         try {
+        //             str += centerText(data[i][j], cellLength) + getCol();
+        //         } catch (ArrayIndexOutOfBoundsException e) {
+        //             str += centerText(getEmpty(), cellLength) + getCol();
+        //         }
+        //     }
+            
+        //     if (i == 0) totalLength = str.length();
+        //     grid += str + "\n";
+        //     grid += fill(getBorder(), totalLength) + "\n";
+        // }
+        
+
+         String str2 = "";
         
         // if (getTitle() != null) {
         //     str2 += fill(getBorder(), totalLength) + "\n";
         //     str2 += getCol() + "" + centerText(getTitle(), totalLength - 2) + getCol() + "\n";
         // }
         
-        str2 += fill(getBorder(), totalLength) + "\n" + grid;
+         str2 += fill(getBorder(), totalLength) + "\n" + grid;
         
         return str2;
     }
@@ -855,22 +858,6 @@ class TextUtils{
             }
         }
         
-        // try {
-        //     int datacount = 0;
-        //     for(int x = 0; x<grid.length; x++){
-        //     if(grid[x] == null){
-        //         grid[x] = datahold[datacount];
-        //         datacount++;
-        //     }
-        // }
-        //     } 
-        // catch (ArrayIndexOutOfBoundsException e) {
-        //     System.out.println("Please run again");
-        // }
-        
-        // System.out.println(rows);
-        // System.out.println(Arrays.toString(titleindex));
-        
         ArrayList<String[][]> grid2 = new ArrayList<String[][]>();
         grid2.add(titleindex2);
         grid2.add(grid);
@@ -932,24 +919,28 @@ public class TestGridMaker3D {
         
         ArrayList<String[][]> data = tu.buildRandomGridData(instructions);
 
-       String[][] array = new String[data.size()-1][];
-       String[][] titletindex;
-        for (int i = 0; i < data.size(); i++) {
-            String[][] row = data.get(i);
-            if(row.length[i]==1){
-                
-            }
-        }
-        
-        
+       String[][] arrayofdata = data.get(1);
+       String[][] titleindex = data.get(0);
+       
     
-     //String gd = grid.build(data);
+    String [] title = new String [titleindex.length];
+    for(int x = 0; x<title.length; x++){
+        title[x] = titleindex[x][0];
+    }
+    int [] title02 = new int [title.length];
+    for(int x = 0; x<title.length; x++){
+        title02[x] = Integer.parseInt(title[x]);
+    }
     
-    // for(int x = 0; x < data.length; x++){
-    //   System.out.println(Arrays.toString(data[x]));
-    // }
+    String gd = grid.build(arrayofdata,title02);
     
-    //ystem.out.println(gd);
+    System.out.println(Arrays.toString(title02));
+    
+    for(int x = 0; x < arrayofdata.length; x++){
+      System.out.println(Arrays.toString(arrayofdata[x]));
+    }
+    
+    System.out.println(gd);
 
     }//end main
 }//end test class
