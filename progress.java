@@ -42,40 +42,59 @@ class Grid extends GridConfig {
             if (data[i].length > maxElements) maxElements = data[i].length;
         }
         
-        String grid = "";
         int cellLength = maxColumnLength + getPadding()*2;
         int totalLength = 0;
         
-        
-        
-        // for (int i = 0; i < data.length; i++) {
+        String grid = "";
+        String test [] = new String [data.length];
+        for (int i = 0; i < data.length; i++) {
             
-        //     String str = String.valueOf(getCol());
-        //     for (int j = 0; j < maxElements; j++) {
+            String str = String.valueOf(getCol());
+            for (int j = 0; j < maxElements; j++) {
                 
-        //         try {
-        //             str += centerText(data[i][j], cellLength) + getCol();
-        //         } catch (ArrayIndexOutOfBoundsException e) {
-        //             str += centerText(getEmpty(), cellLength) + getCol();
-        //         }
-        //     }
+                try {
+                    str += centerText(data[i][j], cellLength) + getCol();
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    str += centerText(getEmpty(), cellLength) + getCol();
+                }
+            }
             
-        //     if (i == 0) totalLength = str.length();
-        //     grid += str + "\n";
-        //     grid += fill(getBorder(), totalLength) + "\n";
-        // }
+            if (i == 0) totalLength = str.length();
+            test[i] = fill(getBorder(), totalLength) + "\n" + str + "\n" + fill(getBorder(), totalLength) + "\n";
+        }
         
 
          String str2 = "";
+         
+        // setTitle("grid");
+    
+    for (int x = 0; x<data.length; x++){
+        for (int j = 0; j<titleindex.length; j++){
+            str2 = "";
+            if(x == titleindex[j]){
+                String hold = "";
+                for(int y = 0; y<data[x].length; y++){
+                    hold = hold + " " + data[x][y];
+                }
+                setTitle(hold);
+                
+            str2 += fill(getBorder(), totalLength) + "\n";
+            str2 += getCol() + "" + centerText(getTitle(), totalLength - 2) + getCol() +"\n";
+            str2 += fill(getBorder(), totalLength) + "\n";
+                
+                test[x] = str2;
+            }
+        }
+    }
+    
+    
+        String fin = "";
         
-        // if (getTitle() != null) {
-        //     str2 += fill(getBorder(), totalLength) + "\n";
-        //     str2 += getCol() + "" + centerText(getTitle(), totalLength - 2) + getCol() + "\n";
-        // }
+        for(int x = 0; x < test.length; x++){
+            fin += test[x];
+        }
         
-         str2 += fill(getBorder(), totalLength) + "\n" + grid;
-        
-        return str2;
+        return fin;
     }
     
     public static String fill(String data, int amount) {
@@ -906,9 +925,9 @@ public class TestGridMaker3D {
       int[] dataRowStyle = {10,10,10};// getting constant varable from the class easier to use this then to remeber all the numbers
       int[] rowBorderStyle ={10,10,10,10};// makes the adjustments
      
-        int maxrowscnt = 30;
+        int maxrowscnt = 15;
         int minrowscnt = 1;
-        int maxstringleng = 15;
+        int maxstringleng = 10;
         int minstringleng = 5;
         int maxwordcnt = 10;
         int minwordcnt = 5;
