@@ -1,7 +1,3 @@
-//sheena samuel
-//period 1
-//April 13th Spec
-
 import java.util.*;
 public class TestSortSearchUtils {
     public static void main(String args[]) {
